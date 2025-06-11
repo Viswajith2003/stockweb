@@ -1,4 +1,3 @@
-// Sidebar.js
 import React from "react";
 import {
   Home,
@@ -12,9 +11,9 @@ import {
 const Sidebar = ({ isMenuOpen, toggleMenu }) => {
   return (
     <aside
-      className={`${isMenuOpen ? "translate-x-0" : "-translate-x-full"} 
-      md:translate-x-0 fixed md:static inset-y-0 left-0 z-50 w-64 bg-white shadow-lg 
-      transition-transform duration-300 ease-in-out md:shadow-none md:border-r border-gray-200`}
+      className={`${isMenuOpen ? "translate-x-0" : "-translate-x-full"}
+       md:translate-x-0 fixed md:static inset-y-0 left-0 z-40 w-64 bg-white shadow-lg
+       transition-transform duration-300 ease-in-out md:shadow-none md:border-r border-gray-200`}
     >
       <div className="p-4 border-b border-gray-200 md:hidden">
         <div className="flex items-center justify-between">

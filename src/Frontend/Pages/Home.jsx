@@ -204,13 +204,14 @@ const HomeUI = () => {
             <PerformanceChart />
 
             {/* Bottom Navigation */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 md:hidden">
               <div className="flex items-center justify-center">
                 <div className="w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer">
                   <Home className="w-6 h-6 text-white" />
                 </div>
               </div>
             </div>
+
           </div>
         </main>
       </div>

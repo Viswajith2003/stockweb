@@ -5,7 +5,6 @@ import Sidebar from "../../components/sidebar.jsx"; // Import the Sidebar compon
 const HomeUI = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // API data state
   const [apiData, setApiData] = useState({
     mainBalance: 0,
     totalDeposit: 0,
@@ -18,18 +17,15 @@ const HomeUI = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // API fetch function
   useEffect(() => {
     const fetchBalanceData = async () => {
       try {
         setApiData((prev) => ({ ...prev, loading: true }));
 
-        // Replace this URL with your friend's actual API endpoint
         // const response = await fetch('YOUR_API_ENDPOINT_HERE');
         // const data = await response.json();
 
-        // Mock data for demonstration - remove this when using real API
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API delay
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         const mockData = {
           mainBalance: 2222717.62,
           totalDeposit: 619927.87,
@@ -123,13 +119,11 @@ const HomeUI = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {/* Main Balance Card */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-4 mb-4">
+                  <TrendingUp className="w-5 h-5 text-green-500" />
                   <h3 className="text-lg font-bold text-gray-900">
                     MAIN BALANCE
                   </h3>
-                  <div className="text-gray-400 text-sm">
-                    {apiData.loading ? "Loading..." : "API Data"}
-                  </div>
                 </div>
                 {apiData.loading ? (
                   <div className="animate-pulse">
@@ -148,26 +142,15 @@ const HomeUI = () => {
                     </div>
                   </>
                 )}
-                <div className="flex items-center justify-between">
-                  <button
-                    className="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                    disabled={apiData.loading}
-                  >
-                    Add Funds
-                  </button>
-                  <TrendingUp className="w-5 h-5 text-green-500" />
-                </div>
               </div>
 
               {/* Total Deposit Card */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-4 mb-4">
+                  <Wallet className="w-5 h-5 text-blue-500" />
                   <h3 className="text-lg font-bold text-gray-900">
                     TOTAL DEPOSIT
                   </h3>
-                  <div className="text-gray-400 text-sm">
-                    {apiData.loading ? "Loading..." : "API Data"}
-                  </div>
                 </div>
                 {apiData.loading ? (
                   <div className="animate-pulse">
@@ -186,26 +169,15 @@ const HomeUI = () => {
                     </div>
                   </>
                 )}
-                <div className="flex items-center justify-between">
-                  <button
-                    className="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
-                    disabled={apiData.loading}
-                  >
-                    Deposit
-                  </button>
-                  <Wallet className="w-5 h-5 text-blue-500" />
-                </div>
               </div>
 
               {/* Total Withdrawal Card */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow md:col-span-2 lg:col-span-1">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-4 mb-4">
+                  <BarChart3 className="w-5 h-5 text-purple-500" />
                   <h3 className="text-lg font-bold text-gray-900">
                     TOTAL WITHDRAWAL
                   </h3>
-                  <div className="text-gray-400 text-sm">
-                    {apiData.loading ? "Loading..." : "API Data"}
-                  </div>
                 </div>
                 {apiData.loading ? (
                   <div className="animate-pulse">
@@ -224,15 +196,6 @@ const HomeUI = () => {
                     </div>
                   </>
                 )}
-                <div className="flex items-center justify-between">
-                  <button
-                    className="text-sm bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-                    disabled={apiData.loading}
-                  >
-                    Withdraw
-                  </button>
-                  <BarChart3 className="w-5 h-5 text-purple-500" />
-                </div>
               </div>
             </div>
 
@@ -243,7 +206,7 @@ const HomeUI = () => {
                   Performance Chart
                 </h3>
                 <div className="text-gray-400 text-sm">
-                  (picture × 3 to bottom 👇)
+                  (picture × 3 to bottom )
                 </div>
               </div>
 

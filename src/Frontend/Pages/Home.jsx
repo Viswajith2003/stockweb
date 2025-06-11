@@ -1,14 +1,71 @@
-import React, { useState } from 'react';
-import { Menu, Home, Settings, User, TrendingUp, Wallet, CreditCard, BarChart3 } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Menu, Home, User, TrendingUp, Wallet, BarChart3 } from "lucide-react";
 
 const HomeUI = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userBalance, setUserBalance] = useState(100);
-  const [totalDeposit, setTotalDeposit] = useState(100);
-  const [currentPosition, setCurrentPosition] = useState('BASIC');
+
+  // API data state
+  const [apiData, setApiData] = useState({
+    mainBalance: 0,
+    totalDeposit: 0,
+    totalWithdrawal: 0,
+    loading: true,
+    error: null,
+  });
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  // API fetch function
+  useEffect(() => {
+    const fetchBalanceData = async () => {
+      try {
+        setApiData((prev) => ({ ...prev, loading: true }));
+
+        // Replace this URL with your friend's actual API endpoint
+        // const response = await fetch('YOUR_API_ENDPOINT_HERE');
+        // const data = await response.json();
+
+        // Mock data for demonstration - remove this when using real API
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API delay
+        const mockData = {
+          mainBalance: 2222717.62,
+          totalDeposit: 619927.87,
+          totalWithdrawal: 0.0,
+        };
+
+        setApiData({
+          mainBalance: mockData.mainBalance,
+          totalDeposit: mockData.totalDeposit,
+          totalWithdrawal: mockData.totalWithdrawal,
+          loading: false,
+          error: null,
+        });
+      } catch (error) {
+        setApiData((prev) => ({
+          ...prev,
+          loading: false,
+          error: "Failed to fetch balance data",
+        }));
+      }
+    };
+
+    fetchBalanceData();
+  }, []);
+
+  const formatNumber = (num) => {
+    return new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(num);
+  };
+
+  const formatUSDT = (num) => {
+    return new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(num / 1000000); // Assuming the API returns values in micro units
   };
 
   return (
@@ -16,20 +73,22 @@ const HomeUI = () => {
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200 px-4 py-3 md:px-6">
         <div className="flex items-center justify-between">
-          <button 
+          <button
             onClick={toggleMenu}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors md:hidden"
           >
             <Menu className="w-6 h-6" />
           </button>
-          
+
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <Home className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900 hidden sm:block">HomeUI</span>
+            <span className="text-xl font-bold text-gray-900 hidden sm:block">
+              HomeUI
+            </span>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
               <User className="w-5 h-5 text-gray-600" />
@@ -39,55 +98,19 @@ const HomeUI = () => {
       </header>
 
       <div className="flex flex-1">
-        {/* Sidebar */}
-        <aside className={`${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
-          md:translate-x-0 fixed md:static inset-y-0 left-0 z-50 w-64 bg-white shadow-lg 
-          transition-transform duration-300 ease-in-out md:shadow-none md:border-r border-gray-200`}>
-          
-          <div className="p-4 border-b border-gray-200 md:hidden">
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-semibold">Menu</span>
-              <button onClick={toggleMenu} className="p-1 hover:bg-gray-100 rounded">
-                <Menu className="w-5 h-5" />
-              </button>
-            </div>
+        {/* Sidebar Placeholder - Replace with your actual Sidebar component */}
+        <div
+          className={`${
+            isMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0`}
+        >
+          <div className="p-4">
+            <h2 className="text-lg font-semibold text-gray-900">Sidebar</h2>
+            <p className="text-sm text-gray-500">
+              Replace with your Sidebar component
+            </p>
           </div>
-          
-          <nav className="p-4">
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="flex items-center space-x-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-medium">
-                  <Home className="w-5 h-5" />
-                  <span>Dashboard</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
-                  <Wallet className="w-5 h-5" />
-                  <span>Wallet</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
-                  <CreditCard className="w-5 h-5" />
-                  <span>Transactions</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
-                  <BarChart3 className="w-5 h-5" />
-                  <span>Analytics</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
-                  <Settings className="w-5 h-5" />
-                  <span>Settings</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </aside>
+        </div>
 
         {/* Main Content */}
         <main className="flex-1 p-4 md:p-6 lg:p-8">
@@ -100,7 +123,7 @@ const HomeUI = () => {
                     HELLO : USER45720
                   </h1>
                   <p className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full inline-block">
-                    (This is enough for everyone)
+                    viswajithviswa715@gmail.com
                   </p>
                 </div>
               </div>
@@ -111,16 +134,34 @@ const HomeUI = () => {
               {/* Main Balance Card */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-gray-900">MAIN BALANCE</h3>
-                  <div className="text-gray-400 text-sm">(need admin panel for edit)</div>
+                  <h3 className="text-lg font-bold text-gray-900">
+                    MAIN BALANCE
+                  </h3>
+                  <div className="text-gray-400 text-sm">
+                    {apiData.loading ? "Loading..." : "API Data"}
+                  </div>
                 </div>
-                <div className="text-3xl font-bold text-yellow-600 mb-2">
-                  {userBalance} USDC
-                </div>
+                {apiData.loading ? (
+                  <div className="animate-pulse">
+                    <div className="h-8 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-24"></div>
+                  </div>
+                ) : apiData.error ? (
+                  <div className="text-red-500 text-sm">{apiData.error}</div>
+                ) : (
+                  <>
+                    <div className="text-3xl font-bold text-yellow-600 mb-2">
+                      {formatNumber(apiData.mainBalance)} BTMETA
+                    </div>
+                    <div className="text-sm text-gray-500 mb-4">
+                      {formatUSDT(apiData.mainBalance)} USDT
+                    </div>
+                  </>
+                )}
                 <div className="flex items-center justify-between">
-                  <button 
-                    onClick={() => setUserBalance(prev => prev + 10)}
+                  <button
                     className="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    disabled={apiData.loading}
                   >
                     Add Funds
                   </button>
@@ -131,16 +172,34 @@ const HomeUI = () => {
               {/* Total Deposit Card */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-gray-900">TOTAL DEPOSIT</h3>
-                  <div className="text-gray-400 text-sm">(need admin panel for edit)</div>
+                  <h3 className="text-lg font-bold text-gray-900">
+                    TOTAL DEPOSIT
+                  </h3>
+                  <div className="text-gray-400 text-sm">
+                    {apiData.loading ? "Loading..." : "API Data"}
+                  </div>
                 </div>
-                <div className="text-3xl font-bold text-yellow-600 mb-2">
-                  {totalDeposit} USDC
-                </div>
+                {apiData.loading ? (
+                  <div className="animate-pulse">
+                    <div className="h-8 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-24"></div>
+                  </div>
+                ) : apiData.error ? (
+                  <div className="text-red-500 text-sm">{apiData.error}</div>
+                ) : (
+                  <>
+                    <div className="text-3xl font-bold text-yellow-600 mb-2">
+                      {formatNumber(apiData.totalDeposit)} BTMETA
+                    </div>
+                    <div className="text-sm text-gray-500 mb-4">
+                      {formatUSDT(apiData.totalDeposit)} USDT
+                    </div>
+                  </>
+                )}
                 <div className="flex items-center justify-between">
-                  <button 
-                    onClick={() => setTotalDeposit(prev => prev + 50)}
+                  <button
                     className="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    disabled={apiData.loading}
                   >
                     Deposit
                   </button>
@@ -148,25 +207,40 @@ const HomeUI = () => {
                 </div>
               </div>
 
-              {/* Current Position Card */}
+              {/* Total Withdrawal Card */}
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow md:col-span-2 lg:col-span-1">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-gray-900">CURRENT POSITION</h3>
-                  <div className="text-gray-400 text-sm">(need admin panel to edit)</div>
+                  <h3 className="text-lg font-bold text-gray-900">
+                    TOTAL WITHDRAWAL
+                  </h3>
+                  <div className="text-gray-400 text-sm">
+                    {apiData.loading ? "Loading..." : "API Data"}
+                  </div>
                 </div>
-                <div className="text-3xl font-bold text-yellow-600 mb-4">
-                  {currentPosition}
-                </div>
+                {apiData.loading ? (
+                  <div className="animate-pulse">
+                    <div className="h-8 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-24"></div>
+                  </div>
+                ) : apiData.error ? (
+                  <div className="text-red-500 text-sm">{apiData.error}</div>
+                ) : (
+                  <>
+                    <div className="text-3xl font-bold text-yellow-600 mb-2">
+                      {formatNumber(apiData.totalWithdrawal)} BTMETA
+                    </div>
+                    <div className="text-sm text-gray-500 mb-4">
+                      {formatUSDT(apiData.totalWithdrawal)} USDT
+                    </div>
+                  </>
+                )}
                 <div className="flex items-center justify-between">
-                  <select 
-                    value={currentPosition}
-                    onChange={(e) => setCurrentPosition(e.target.value)}
-                    className="text-sm bg-gray-100 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  <button
+                    className="text-sm bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+                    disabled={apiData.loading}
                   >
-                    <option value="BASIC">BASIC</option>
-                    <option value="PREMIUM">PREMIUM</option>
-                    <option value="PRO">PRO</option>
-                  </select>
+                    Withdraw
+                  </button>
                   <BarChart3 className="w-5 h-5 text-purple-500" />
                 </div>
               </div>
@@ -175,19 +249,25 @@ const HomeUI = () => {
             {/* Chart/Image Section */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-gray-900">Performance Chart</h3>
-                <div className="text-gray-400 text-sm">(picture × 3 to bottom 👇)</div>
+                <h3 className="text-lg font-bold text-gray-900">
+                  Performance Chart
+                </h3>
+                <div className="text-gray-400 text-sm">
+                  (picture × 3 to bottom 👇)
+                </div>
               </div>
-              
+
               <div className="bg-gray-900 rounded-xl h-64 md:h-80 flex items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20"></div>
                 <div className="text-center z-10">
                   <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <TrendingUp className="w-8 h-8 text-white" />
                   </div>
-                  <p className="text-white/80 text-sm">Chart visualization will appear here</p>
+                  <p className="text-white/80 text-sm">
+                    Chart visualization will appear here
+                  </p>
                 </div>
-                
+
                 {/* Animated background elements */}
                 <div className="absolute top-4 left-4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
                 <div className="absolute top-8 right-8 w-3 h-3 bg-purple-400 rounded-full animate-ping"></div>
@@ -209,7 +289,7 @@ const HomeUI = () => {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
           onClick={toggleMenu}
         ></div>

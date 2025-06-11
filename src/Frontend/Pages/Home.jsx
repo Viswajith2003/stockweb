@@ -62,7 +62,7 @@ const HomeUI = () => {
     return new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    }).format(num / 1000000); // Assuming the API returns values in micro units
+    }).format(num / 1000000);
   };
 
   return (
@@ -99,7 +99,7 @@ const HomeUI = () => {
         <Sidebar isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
 
         {/* Main Content */}
-        <main className="flex-1 p-4 md:p-6 lg:p-8 relative z-10">
+        <main className="flex-1 p-4 md:p-6 lg:p-8">
           <div className="max-w-4xl mx-auto">
             {/* Welcome Section */}
             <div className="mb-8">
@@ -205,9 +205,6 @@ const HomeUI = () => {
                 <h3 className="text-lg font-bold text-gray-900">
                   Performance Chart
                 </h3>
-                <div className="text-gray-400 text-sm">
-                  (picture × 3 to bottom )
-                </div>
               </div>
 
               <div className="bg-gray-900 rounded-xl h-64 md:h-80 flex items-center justify-center relative overflow-hidden">
@@ -239,14 +236,6 @@ const HomeUI = () => {
           </div>
         </main>
       </div>
-
-      {/* Mobile Menu Overlay */}
-      {isMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
-          onClick={toggleMenu}
-        ></div>
-      )}
     </div>
   );
 };

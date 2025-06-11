@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, Home, User, TrendingUp, Wallet, BarChart3 } from "lucide-react";
 import Sidebar from "../../components/sidebar.jsx"; // Import the Sidebar component
+import PerformanceChart from "../../components/PerformanceChart.jsx"; // Import the PerformanceChart component
 
 const HomeUI = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -199,31 +200,8 @@ const HomeUI = () => {
               </div>
             </div>
 
-            {/* Chart/Image Section */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-gray-900">
-                  Performance Chart
-                </h3>
-              </div>
-
-              <div className="bg-gray-900 rounded-xl h-64 md:h-80 flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20"></div>
-                <div className="text-center z-10">
-                  <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <TrendingUp className="w-8 h-8 text-white" />
-                  </div>
-                  <p className="text-white/80 text-sm">
-                    Chart visualization will appear here
-                  </p>
-                </div>
-
-                {/* Animated background elements */}
-                <div className="absolute top-4 left-4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                <div className="absolute top-8 right-8 w-3 h-3 bg-purple-400 rounded-full animate-ping"></div>
-                <div className="absolute bottom-6 left-1/4 w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
-              </div>
-            </div>
+            {/* Performance Chart Component */}
+            <PerformanceChart />
 
             {/* Bottom Navigation */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4">

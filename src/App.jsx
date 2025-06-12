@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="flex-1 p-4">
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Home />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/settings" element={<Settings />} />

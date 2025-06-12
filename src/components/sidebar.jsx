@@ -61,10 +61,7 @@ const Sidebar = ({ isMenuOpen, toggleMenu }) => {
             </Link>
           </li>
           <li>
-            <Link
-              to="/transactions"
-              className={getLinkClasses("/transactions")}
-            >
+            <Link to="/transaction" className={getLinkClasses("/transaction")}>
               <CreditCard className="w-5 h-5" />
               <span>Transactions</span>
             </Link>
@@ -141,9 +138,9 @@ const SidebarAlternative = ({ isMenuOpen, toggleMenu }) => {
           </li>
           <li>
             <Link
-              to="/transactions"
+              to="/transaction"
               className={`flex items-center space-x-3 px-3 py-2 rounded-lg font-medium transition-colors ${
-                location.pathname === "/transactions"
+                location.pathname === "/transaction"
                   ? "bg-blue-50 text-blue-700"
                   : "text-gray-700 hover:bg-gray-100"
               }`}

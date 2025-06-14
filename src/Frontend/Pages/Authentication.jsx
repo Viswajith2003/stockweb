@@ -179,7 +179,7 @@ const AuthPages = () => {
                 </label>
                 <button
                   type="button"
-                  className="text-blue-300 hover:text-blue-500 transition-colors"
+                  className="text-blue-400 hover:text-blue-500 transition-colors"
                 >
                   Forgot Password?
                 </button>
@@ -203,7 +203,7 @@ const AuthPages = () => {
                     });
                     generateCaptcha();
                   }}
-                  className="text-blue-300 hover:text-blue-500 font-medium transition-colors"
+                  className="text-blue-400 hover:text-blue-500 font-medium transition-colors"
                 >
                   {isLogin ? "Register" : "Login"}
                 </button>

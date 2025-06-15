@@ -6,19 +6,20 @@ import Wallet from "./Frontend/Pages/Wallet.jsx";
 import Transaction from "./Frontend/Pages/Transaction.jsx";
 import Settings from "./Frontend/Pages/settings.jsx";
 import Analytics from "./Frontend/Pages/Analysis.jsx";
-import AuthPages from "./Frontend/Pages/Authentication.jsx";
+// import AuthPages from "./Frontend/Pages/Authentication.jsx";
 
 function App() {
   return (
     <div className="flex-1 p-4">
-      {/* <Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Home />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/settings" element={<Settings />} />
-      </Routes> */}
-      <AuthPages/>
+      </Routes>
+      {/* <AuthPages/> */}
     </div>
   );
 }

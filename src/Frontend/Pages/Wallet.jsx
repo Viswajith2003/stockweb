@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../components/Layout.jsx";
-import { Copy, Upload, AlertCircle, CheckCircle } from "react-feather";
+import { Copy, Upload, AlertCircle, CheckCircle } from "lucide-react";
+
+// Mock Layout component
+const Layout = ({ children }) => <div className="min-h-screen">{children}</div>;
 
 export default function Wallet() {
   const [walletData, setWalletData] = useState({
@@ -267,65 +269,57 @@ export default function Wallet() {
           </div>
         </div>
 
-        {/* Deposit Section */}
-        <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-600 shadow-2xl">
-          <h3 className="text-3xl text-white font-bold mb-6 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Deposit Funds
+        {/* Redesigned Deposit Section */}
+        <div className="bg-slate-800/95 backdrop-blur-sm rounded-2xl p-6 border border-slate-600 shadow-2xl max-w-md mx-auto">
+          <h3 className="text-2xl text-white font-bold mb-6 text-left">
+            Deposit
           </h3>
 
-          {/* Account Details */}
-          <div className="bg-gray-900/50 rounded-xl p-6 mb-6 border border-gray-600">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="flex justify-between items-center p-3 bg-gray-700/50 rounded-lg">
-                  <span className="text-gray-300 font-medium">Name</span>
-                  <span className="text-white font-semibold">
-                    {walletData.depositInfo.name}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-gray-700/50 rounded-lg">
-                  <span className="text-gray-300 font-medium">Email</span>
-                  <span className="text-white font-semibold text-sm">
-                    {walletData.depositInfo.email}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-gray-700/50 rounded-lg">
-                  <span className="text-gray-300 font-medium">
-                    USDT Balance
-                  </span>
-                  <span className="text-green-400 font-bold">
-                    {walletData.depositInfo.usdtBalance}
-                  </span>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center p-3 bg-gray-700/50 rounded-lg">
-                  <span className="text-gray-300 font-medium">Min Deposit</span>
-                  <span className="text-blue-400 font-bold">
-                    {walletData.depositInfo.minDeposit}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-gray-700/50 rounded-lg">
-                  <span className="text-gray-300 font-medium">Max Deposit</span>
-                  <span className="text-purple-400 font-bold">
-                    {walletData.depositInfo.maxDeposit}
-                  </span>
-                </div>
-              </div>
+          {/* Account Details - Compact Layout */}
+          <div className="space-y-4 mb-6">
+            <div className="flex justify-between items-center py-2">
+              <span className="text-gray-400 text-sm">Name</span>
+              <span className="text-white text-sm font-medium">
+                {walletData.depositInfo.name}
+              </span>
+            </div>
+            <div className="flex justify-between items-center py-2">
+              <span className="text-gray-400 text-sm">Email</span>
+              <span className="text-white text-sm font-medium">
+                {walletData.depositInfo.email}
+              </span>
+            </div>
+            <div className="flex justify-between items-center py-2">
+              <span className="text-gray-400 text-sm">USDT Balance</span>
+              <span className="text-white text-sm font-medium">
+                {walletData.depositInfo.usdtBalance}
+              </span>
+            </div>
+            <div className="flex justify-between items-center py-2">
+              <span className="text-gray-400 text-sm">Minimum Deposit</span>
+              <span className="text-white text-sm font-medium">
+                {walletData.depositInfo.minDeposit}
+              </span>
+            </div>
+            <div className="flex justify-between items-center py-2">
+              <span className="text-gray-400 text-sm">Maximum Deposit</span>
+              <span className="text-white text-sm font-medium">
+                {walletData.depositInfo.maxDeposit}
+              </span>
             </div>
           </div>
 
-          {/* QR Code and Wallet Address */}
-          <div className="bg-gray-900/70 rounded-xl p-6 mb-6 border border-gray-600">
-            <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6">
+          {/* QR Code and Wallet Address - Side by Side */}
+          <div className="mb-6">
+            <div className="flex items-start space-x-4">
               {/* QR Code */}
-              <div className="bg-white p-4 rounded-xl shadow-lg">
-                <div className="w-32 h-32 bg-black flex items-center justify-center text-white">
-                  <div className="grid grid-cols-10 gap-0.5">
-                    {Array.from({ length: 100 }).map((_, i) => (
+              <div className="bg-white p-3 rounded-lg shadow-lg flex-shrink-0">
+                <div className="w-20 h-20 bg-black flex items-center justify-center">
+                  <div className="grid grid-cols-8 gap-0.5">
+                    {Array.from({ length: 64 }).map((_, i) => (
                       <div
                         key={i}
-                        className={`w-1 h-1 ${
+                        className={`w-0.5 h-0.5 ${
                           Math.random() > 0.5 ? "bg-black" : "bg-white"
                         }`}
                       />
@@ -335,18 +329,18 @@ export default function Wallet() {
               </div>
 
               {/* Wallet Details */}
-              <div className="flex-1 space-y-4">
+              <div className="flex-1 space-y-3">
                 <div>
-                  <h4 className="text-gray-400 text-sm font-semibold mb-2 uppercase tracking-wide">
+                  <h4 className="text-gray-300 text-sm font-medium mb-2">
                     Wallet Address
                   </h4>
-                  <div className="flex items-center space-x-3 p-3 bg-gray-800 rounded-lg border border-gray-600">
-                    <span className="text-sm break-all text-white font-mono flex-1">
+                  <div className="flex items-center space-x-2 p-2 bg-slate-700 rounded-lg border border-slate-600">
+                    <span className="text-xs break-all text-white font-mono flex-1">
                       {walletData.depositInfo.walletAddress}
                     </span>
                     <button
                       onClick={handleCopyAddress}
-                      className={`p-2 rounded-lg transition-all duration-200 ${
+                      className={`p-1.5 rounded transition-all duration-200 ${
                         copySuccess
                           ? "bg-green-600 text-white"
                           : "bg-blue-600 hover:bg-blue-700 text-white"
@@ -354,20 +348,20 @@ export default function Wallet() {
                       title="Copy address"
                     >
                       {copySuccess ? (
-                        <CheckCircle size={16} />
+                        <CheckCircle size={12} />
                       ) : (
-                        <Copy size={16} />
+                        <Copy size={12} />
                       )}
                     </button>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-gray-400 text-sm font-semibold mb-2 uppercase tracking-wide">
+                  <h4 className="text-gray-300 text-sm font-medium mb-2">
                     Network
                   </h4>
-                  <div className="p-3 bg-purple-900/30 border border-purple-600 rounded-lg">
-                    <span className="text-purple-300 font-bold">
+                  <div className="p-2 bg-slate-700 border border-slate-600 rounded-lg">
+                    <span className="text-white text-sm font-medium">
                       {walletData.depositInfo.network}
                     </span>
                   </div>
@@ -378,10 +372,10 @@ export default function Wallet() {
 
           {/* File Upload */}
           <div className="mb-6">
-            <label className="block text-lg font-semibold mb-4 text-center text-gray-200">
-              Upload Deposit Confirmation Receipt
+            <label className="block text-sm font-medium mb-3 text-gray-300">
+              Please upload deposit confirmation receipt
             </label>
-            <div className="border-2 border-dashed border-gray-500 rounded-xl p-8 hover:border-purple-500 transition-all duration-300 bg-gray-900/30">
+            <div className="border-2 border-dashed border-slate-600 rounded-lg p-4 hover:border-slate-500 transition-all duration-300 bg-slate-700/30">
               <input
                 type="file"
                 onChange={handleFileSelect}
@@ -391,19 +385,14 @@ export default function Wallet() {
               />
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer flex flex-col items-center space-y-3 text-gray-300 hover:text-white transition-colors"
+                className="cursor-pointer flex items-center justify-between text-gray-300 hover:text-white transition-colors"
               >
-                <div className="p-4 bg-gray-700 rounded-full">
-                  <Upload size={24} />
-                </div>
-                <div className="text-center">
-                  <p className="font-semibold">
-                    {selectedFile ? selectedFile.name : "Choose file"}
-                  </p>
-                  <p className="text-sm text-gray-400 mt-1">
-                    {selectedFile ? "File selected" : "PNG, JPG, PDF up to 5MB"}
-                  </p>
-                </div>
+                <span className="text-sm">
+                  {selectedFile ? selectedFile.name : "Choose file"}
+                </span>
+                <span className="text-xs text-gray-400">
+                  {selectedFile ? "File selected" : "No file chosen"}
+                </span>
               </label>
             </div>
           </div>
@@ -412,19 +401,19 @@ export default function Wallet() {
           <button
             onClick={handleSubmitDeposit}
             disabled={!selectedFile || submitLoading}
-            className={`w-full font-bold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg ${
+            className={`w-full font-medium py-3 px-4 rounded-lg transition-all duration-300 ${
               !selectedFile || submitLoading
                 ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-purple-500/25 hover:shadow-purple-500/40"
+                : "bg-purple-600 hover:bg-purple-700 text-white"
             }`}
           >
             {submitLoading ? (
               <div className="flex items-center justify-center space-x-2">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                 <span>Submitting...</span>
               </div>
             ) : (
-              "Submit Receipt"
+              "Submit Screenshot"
             )}
           </button>
         </div>

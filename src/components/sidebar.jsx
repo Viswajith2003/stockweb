@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import {
   Menu,
@@ -24,7 +25,14 @@ export default function Sidebar({ isMenuOpen, toggleMenu }) {
   };
 
   const handleLinkClick = () => {
-    if (isMenuOpen && window.innerWidth < 768) toggleMenu();
+    console.log("Link clicked");
+
+    useEffect(() => {
+      // Automatically close menu when route changes on mobile
+      if (window.innerWidth < 768 && isMenuOpen) {
+        toggleMenu();
+      }
+    }, [location.pathname]); // trigger when the path changes
   };
 
   return (

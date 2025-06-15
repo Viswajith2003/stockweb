@@ -1,8 +1,119 @@
 import React, { useState, useEffect } from "react";
-import { Copy, Upload, AlertCircle, CheckCircle } from "lucide-react";
+import { Copy, Upload, AlertCircle, CheckCircle, Menu, X, Home, Wallet, CreditCard, BarChart3, Settings, LogOut, User, Bell } from "lucide-react";
 
-// Mock Layout component
-const Layout = ({ children }) => <div className="min-h-screen">{children}</div>;
+// Enhanced Layout component with header and sidebar
+const Layout = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const menuItems = [
+    { icon: Home, label: "Dashboard", active: false },
+    { icon: Wallet, label: "Wallet", active: true },
+    { icon: CreditCard, label: "Transactions", active: false },
+    { icon: BarChart3, label: "Analytics", active: false },
+    { icon: Settings, label: "Settings", active: false },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-900 flex">
+      {/* Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-800 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
+        <div className="flex items-center justify-between h-16 px-6 bg-gray-900">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">BT</span>
+            </div>
+            <span className="text-white font-bold text-lg">BTMETA</span>
+          </div>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden text-gray-400 hover:text-white"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <nav className="mt-8 px-4">
+          <div className="space-y-2">
+            {menuItems.map((item, index) => (
+              <a
+                key={index}
+                href="#"
+                className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                  item.active
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                }`}
+              >
+                <item.icon className="mr-3 h-5 w-5" />
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-gray-700">
+            <a
+              href="#"
+              className="flex items-center px-4 py-3 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition-colors"
+            >
+              <LogOut className="mr-3 h-5 w-5" />
+              Logout
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main content area */}
+      <div className="flex-1 flex flex-col overflow-hidden lg:ml-0">
+        {/* Header */}
+        <header className="bg-gray-800 shadow-lg border-b border-gray-700">
+          <div className="flex items-center justify-between h-16 px-6">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden text-gray-400 hover:text-white"
+              >
+                <Menu size={20} />
+              </button>
+              <h1 className="text-xl font-semibold text-white">Wallet Dashboard</h1>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              {/* Notifications */}
+              <button className="relative p-2 text-gray-400 hover:text-white transition-colors">
+                <Bell size={20} />
+                <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
+              </button>
+
+              {/* User Profile */}
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                  <User size={16} className="text-white" />
+                </div>
+                <div className="hidden md:block">
+                  <p className="text-sm font-medium text-white">BT0954948</p>
+                  <p className="text-xs text-gray-400">Premium User</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Page content */}
+        <main className="flex-1 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+};
 
 export default function Wallet() {
   const [walletData, setWalletData] = useState({
@@ -33,79 +144,13 @@ export default function Wallet() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
-  // Fetch wallet data from API with improved error handling
+  // Load demo data (replace with API calls when ready)
   useEffect(() => {
-    const fetchWalletData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+    const loadDemoData = () => {
+      setLoading(true);
 
-        // Check if APIs exist before calling them
-        const apiEndpoints = [
-          "/api/wallet/main-balance",
-          "/api/wallet/total-deposit",
-          "/api/wallet/deposit-info",
-        ];
-
-        const responses = await Promise.allSettled(
-          apiEndpoints.map(async (endpoint) => {
-            const response = await fetch(endpoint);
-
-            // Check if response is actually JSON
-            const contentType = response.headers.get("content-type");
-            if (!contentType || !contentType.includes("application/json")) {
-              throw new Error(`API ${endpoint} returned non-JSON response`);
-            }
-
-            if (!response.ok) {
-              throw new Error(`API ${endpoint} returned ${response.status}`);
-            }
-
-            return response.json();
-          })
-        );
-
-        // Check if all API calls succeeded
-        const allSucceeded = responses.every(
-          (result) => result.status === "fulfilled"
-        );
-
-        if (allSucceeded) {
-          const [mainBalance, totalDeposit, depositInfo] = responses.map(
-            (r) => r.value
-          );
-
-          setWalletData({
-            mainBalance: {
-              btmetaBalance: mainBalance.btmetaBalance || "2,235,889.00 BTMETA",
-              usdtBalance: mainBalance.usdtBalance || "1,118.00 USDT",
-              walletId: mainBalance.walletId || "BT0954948",
-            },
-            totalDeposit: {
-              btmetaBalance: totalDeposit.btmetaBalance || "100.00 BTMETA",
-              usdtBalance: totalDeposit.usdtBalance || "50.00 USDT",
-              walletId: totalDeposit.walletId || "BT0954948",
-            },
-            depositInfo: {
-              name: depositInfo.name || "BT0954948",
-              email: depositInfo.email || "sabameharban704@gmail.com",
-              usdtBalance: depositInfo.usdtBalance || "0 USDT",
-              minDeposit: depositInfo.minDeposit || "1000.00 BTMETA",
-              maxDeposit: depositInfo.maxDeposit || "10000000.00 BTMETA",
-              walletAddress:
-                depositInfo.walletAddress ||
-                "0xA5021FF959F4833a1F7160dE51E2E7401AB1A0bB",
-              network: depositInfo.network || "BNB Smart Chain (BEP20)",
-            },
-          });
-        } else {
-          throw new Error("One or more API endpoints failed");
-        }
-      } catch (err) {
-        console.error("Error fetching wallet data:", err);
-        setError(`API Error: ${err.message}`);
-
-        // Use fallback data when APIs fail
+      // Simulate loading time
+      setTimeout(() => {
         setWalletData({
           mainBalance: {
             btmetaBalance: "2,235,889.00 BTMETA",
@@ -127,12 +172,11 @@ export default function Wallet() {
             network: "BNB Smart Chain (BEP20)",
           },
         });
-      } finally {
         setLoading(false);
-      }
+      }, 1000); // 1 second loading simulation
     };
 
-    fetchWalletData();
+    loadDemoData();
   }, []);
 
   const handleCopyAddress = async () => {
@@ -164,42 +208,18 @@ export default function Wallet() {
     }
 
     setSubmitLoading(true);
-    const formData = new FormData();
-    formData.append("receipt", selectedFile);
-    formData.append("walletAddress", walletData.depositInfo.walletAddress);
 
-    try {
-      const response = await fetch("/api/wallet/submit-deposit", {
-        method: "POST",
-        body: formData,
-      });
-
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const result = await response.json();
-        if (response.ok) {
-          alert("Deposit receipt submitted successfully!");
-          setSelectedFile(null);
-          // Reset file input
-          document.getElementById("file-upload").value = "";
-        } else {
-          alert(result.message || "Failed to submit deposit receipt");
-        }
-      } else {
-        if (response.ok) {
-          alert("Deposit receipt submitted successfully!");
-          setSelectedFile(null);
-          document.getElementById("file-upload").value = "";
-        } else {
-          alert("Failed to submit deposit receipt");
-        }
+    // Demo submission (replace with actual API call when ready)
+    setTimeout(() => {
+      alert("Deposit receipt submitted successfully! (Demo mode)");
+      setSelectedFile(null);
+      // Reset file input
+      const fileInput = document.getElementById("file-upload");
+      if (fileInput) {
+        fileInput.value = "";
       }
-    } catch (error) {
-      console.error("Error submitting deposit:", error);
-      alert("Network error occurred while submitting deposit");
-    } finally {
       setSubmitLoading(false);
-    }
+    }, 2000); // Simulate 2 second processing time
   };
 
   if (loading) {
@@ -218,30 +238,19 @@ export default function Wallet() {
   return (
     <Layout>
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 space-y-6">
-        {/* Error Alert */}
-        {error && (
-          <div className="bg-red-900/50 border-2 border-red-600 text-red-100 p-4 rounded-xl flex items-center space-x-3 shadow-lg">
-            <AlertCircle className="text-red-400 flex-shrink-0" size={20} />
-            <div>
-              <p className="font-semibold">Connection Issue</p>
-              <p className="text-sm opacity-90">{error} Using cached data.</p>
-            </div>
-          </div>
-        )}
-
         {/* My Wallet Section */}
         <div className="space-y-6">
-          <h2 className="text-4xl font-bold text-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold text-start text-white bg-gradient-to-r bg-clip-text">
             MY WALLET
           </h2>
 
           {/* Main Balance Card */}
           <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 p-1 rounded-2xl shadow-xl">
             <div className="bg-gray-900 rounded-xl p-8 text-start border border-gray-700">
-              <h3 className="text-gray-300 text-3xl font-semibold  tracking-wide">
+              <h3 className="text-gray-300 text-3xl font-semibold tracking-wide">
                 Main Balance
               </h3>
-              <p className="text-yellow-400 text-xl font-bold  drop-shadow-lg">
+              <p className="text-yellow-400 text-xl font-bold drop-shadow-lg">
                 {walletData.mainBalance.btmetaBalance}
               </p>
               <p className="text-green-400 text-md font-semibold">
@@ -256,7 +265,7 @@ export default function Wallet() {
           {/* Total Deposit Card */}
           <div className="bg-gradient-to-r from-green-600 to-teal-600 p-1 rounded-2xl shadow-xl">
             <div className="bg-gray-900 rounded-xl p-6 text-start border border-gray-700">
-              <h3 className="text-gray-300 text-3xl font-bold   tracking-wide">
+              <h3 className="text-gray-300 text-3xl font-bold tracking-wide">
                 Total Deposit
               </h3>
               <p className="text-green-400 text-xl font-bold drop-shadow-lg">
